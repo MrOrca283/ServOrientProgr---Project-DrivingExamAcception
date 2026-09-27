@@ -1,0 +1,115 @@
+type Query {
+  candidates(page: Int = 0, size: Int = 20): CandidateConnection
+  candidateById(id: ID!): Candidate
+  medBlanks(candidateId: ID, page: Int = 0, size: Int = 10): MedBlankConnection
+  medBlankById(id: ID!): MedBlank
+}
+
+type Candidate {
+  id: ID!
+  firstName: String
+  lastName: String
+  patronymicName: String
+  phoneNumber: String
+  passportNumber: String
+  currentLicenceRevocation: Boolean
+  licenceCategory: String
+
+}
+
+type MedBlank {
+    id: ID!
+    blankCode: String!
+    omsID: String!
+    eyeCheck: String
+    psyhicCheck: String
+    nervousSystemCheck: String
+    candidateHealthCheckResult: String
+    candidate: Candidate
+}
+
+type CandidateConnection {
+    nodes: [Candidate]
+    pageInfo: PageInfo
+    totalCount: Int
+}
+
+type PageInfo {
+    pageNumber: Int
+    pageSize: Int
+    totalPages: Int
+    last: Boolean
+}
+
+type MedBlankPage {
+    content: [MedBlank]
+    pageNumber: Int
+    pageSize: Int
+    totalElements: Int
+    totalPages: Int
+    last: Boolean
+}
+
+
+
+input CreateMedBlankInput {
+    blankCode: String!
+    firstName: String!
+    lastName: String!
+    patronymicName: String!
+    omsID: String!
+    eyeCheck: String
+    psyhicCheck: String
+    nervousSystemCheck: String
+    candidateHealthCheckResult: String
+}
+
+
+
+input UpdateMedBlankInput {
+    omsID: String!
+    eyeCheck: String
+    psyhicCheck: String
+    nervousSystemCheck: String
+    candidateHealthCheckResult: String
+}
+
+input CreateCandidateInput {
+    firstName: String!
+    lastName: String!
+    patronymicName: String!
+    phoneNumber: String!
+    passportData: String!
+    currentLicenceRevocation: Boolean
+    licenceCategory: String
+}
+
+input UpdateCandidateInput {
+    firstName: String!
+    lastName: String!
+    patronymicName: String!
+    phoneNumber: String!
+    passportData: String!
+    currentLicenceRevocation: Boolean
+    licenceCategory: String
+}
+
+
+input CandidateFilter {
+  page: Int = 0
+  size: Int = 20
+  licenceCategory: String
+}
+
+
+
+type Mutation {
+    createMedBlank(input: CreateMedBlankInput!): MedBlank!
+
+    updateMedBlank(id: ID!, input: UpdateMedBlankInput!): MedBlank!
+    deleteMedBlank(id: ID!): Boolean!
+    createCandidate(input: CreateCandidateInput!): Candidate!
+    updateCandidate(id: ID!, input: UpdateCandidateInput!): Candidate!
+    deleteCandidate(id: ID!): Boolean!
+
+}
